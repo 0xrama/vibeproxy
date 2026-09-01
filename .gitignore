@@ -1,0 +1,32 @@
+# Swift Build
+src/.build/
+*.swiftmodule
+*.swiftdoc
+
+# Xcode
+xcuserdata/
+*.xcworkspace
+*.xcodeproj
+
+# App Bundle
+*.app
+*.zip
+*.dmg
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Resources (copied during build)
+# The CLIProxyAPI backend binary is fetched at build time (scripts/update-backend.sh)
+src/Sources/Resources/cli-proxy-api-plus
+src/Sources/Resources/static/
+
+# Icon generation artifacts
+src/Sources/Resources/AppIcon.iconset/
+
+# Logs
+*.log
+test-notarization.sh
+.vscode/settings.json

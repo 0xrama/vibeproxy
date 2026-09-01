@@ -1,0 +1,128 @@
+# Server port (CLIProxyAPI runs on 8318, ThinkingProxy forwards from 8317)
+port: 8318
+
+# Bind to localhost only for security (prevents exposure on public IPs)
+host: 127.0.0.1
+
+# Amp CLI integration (management requests only - login, user, threads)
+amp-upstream-url: "https://ampcode.com"
+amp-restrict-management-to-localhost: true
+
+# Management API settings
+remote-management:
+  allow-remote: false
+  secret-key: ""  # Leave empty to disable management API
+  # Stop periodic background GitHub update checks for the management panel (power saver)
+  disable-auto-update-panel: true
+
+# Authentication directory (stores OAuth tokens)
+auth-dir: "~/.cli-proxy-api"
+
+# Logging configuration
+debug: false
+logging-to-file: false
+
+# Usage statistics disabled (no telemetry)
+usage-statistics-enabled: false
+
+# Network proxy (if needed for corporate networks)
+proxy-url: ""
+
+# Retry configuration
+request-retry: 3
+
+# Timeout for upstream provider requests
+# Default: 10m. Set to "0" to disable timeout.
+# Important for Extended Thinking requests which may take 5-10+ minutes.
+request-timeout: "10m"
+
+# Quota management
+quota-exceeded:
+  switch-project: true
+  switch-preview-model: true
+
+# OAuth providers for local subscriptions
+# Claude, Codex (GPT), Gemini tokens in ~/.cli-proxy-api/ will be used
+# No fallback - users must authenticate providers they want to use
+
+# No API keys needed for OAuth-based providers
+generative-language-api-key: []
+
+# Bundled OpenAI-compatible providers (API keys are added via the app UI)
+openai-compatibility:
+  # CommandCode (https://commandcode.ai) — Provider API, pay-as-you-go.
+  # Get an API key: https://commandcode.ai/studio (Settings > API keys)
+  # Note: CommandCode serves Claude models only via its Anthropic endpoint,
+  # so this entry exposes its OpenAI-protocol catalog.
+  - name: "commandcode"
+    base-url: "https://api.commandcode.ai/provider/v1"
+    display-name: "CommandCode"
+    help-text: "Every top model, one API (GPT-5.6, GLM, Kimi, Qwen, Grok, DeepSeek…). Pay-as-you-go, no markup. Create a key at commandcode.ai/studio."
+    icon-system: "chevron.left.forwardslash.chevron.right"
+    models:
+      - name: "gpt-5.6-sol"
+        alias: "cc-gpt-5.6-sol"
+      - name: "gpt-5.6-terra"
+        alias: "cc-gpt-5.6-terra"
+      - name: "gpt-5.6-luna"
+        alias: "cc-gpt-5.6-luna"
+      - name: "gpt-5.5"
+        alias: "cc-gpt-5.5"
+      - name: "gpt-5.3-codex"
+        alias: "cc-gpt-5.3-codex"
+      - name: "gpt-5.4-mini"
+        alias: "cc-gpt-5.4-mini"
+      - name: "zai-org/GLM-5.3"
+        alias: "cc-glm-5.3"
+      - name: "z-ai/glm-5.3-flash"
+        alias: "cc-glm-5.3-flash"
+      - name: "moonshotai/Kimi-K2.7-Code"
+        alias: "cc-kimi-k2.7-code"
+      - name: "moonshotai/Kimi-K3"
+        alias: "cc-kimi-k3"
+      - name: "Qwen/Qwen3.8-Max"
+        alias: "cc-qwen3.8-max"
+      - name: "deepseek/deepseek-v4-pro"
+        alias: "cc-deepseek-v4-pro"
+      - name: "deepseek/deepseek-v4-flash"
+        alias: "cc-deepseek-v4-flash"
+      - name: "google/gemini-3.7-flash"
+        alias: "cc-gemini-3.7-flash"
+      - name: "xai/grok-4.6"
+        alias: "cc-grok-4.6"
+      - name: "MiniMaxAI/MiniMax-M3"
+        alias: "cc-minimax-m3"
+      - name: "poolside/laguna-s-2.1-free"
+        alias: "cc-laguna-s-2.1-free"
+
+  # Neuralwatt (https://neuralwatt.com) — energy-efficient inference API.
+  # OpenAI-compatible; every response includes energy (J/kWh/W) metrics.
+  # Get an API key: https://portal.neuralwatt.com
+  - name: "neuralwatt"
+    base-url: "https://api.neuralwatt.com/v1"
+    display-name: "Neuralwatt"
+    help-text: "Energy-efficient inference: GLM-5.3, Kimi K3, Qwen 3.6, DeepSeek V4. Reports joules per request. Create a key at portal.neuralwatt.com."
+    icon-system: "bolt.fill"
+    models:
+      - name: "glm-5.3"
+        alias: "nw-glm-5.3"
+      - name: "glm-5.2-fast"
+        alias: "nw-glm-5.2-fast"
+      - name: "glm-5.2-flex"
+        alias: "nw-glm-5.2-flex"
+      - name: "kimi-k3"
+        alias: "nw-kimi-k3"
+      - name: "kimi-k3-fast"
+        alias: "nw-kimi-k3-fast"
+      - name: "kimi-k2.7-code"
+        alias: "nw-kimi-k2.7-code"
+      - name: "kimi-k2.7-code-fast"
+        alias: "nw-kimi-k2.7-code-fast"
+      - name: "qwen3.6-35b"
+        alias: "nw-qwen3.6-35b"
+      - name: "qwen3.6-35b-fast"
+        alias: "nw-qwen3.6-35b-fast"
+      - name: "deepseek-v4-flash"
+        alias: "nw-deepseek-v4-flash"
+      - name: "gemma-4-31b"
+        alias: "nw-gemma-4-31b"
