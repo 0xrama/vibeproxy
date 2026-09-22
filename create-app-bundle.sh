@@ -16,6 +16,13 @@ APP_NAME="VibeProxy"
 BUILD_DIR="$SRC_DIR/.build/release"
 APP_DIR="$PROJECT_DIR/$APP_NAME.app"
 
+# The macOS 27 SDK makes @State a macro whose plugin (SwiftUIMacros) only ships
+# with Xcode, not Command Line Tools. Pin to the newest SDK where @State is
+# still a property wrapper (skip if the user already set SDKROOT).
+if [ -z "$SDKROOT" ] && [ -d "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk" ]; then
+    export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk
+fi
+
 # Build the Swift executable first
 echo -e "${BLUE}Building Swift executable (release)...${NC}"
 cd "$SRC_DIR"
