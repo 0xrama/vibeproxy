@@ -12,6 +12,14 @@ All credit for the original app goes to **[Automaze, Ltd.](https://automaze.io)*
 - Multi-account key/account pooling, round-robin with failover, hot config reload
 - Everything else (Claude, Gemini, Kimi, Qwen, Copilot, Antigravity) still works but is tucked behind "Other providers"
 
+## Codex quota in the menu bar
+
+Open **Codex quota** in the status menu to see remaining session and weekly quota for each enabled Codex account. Each account submenu shows window reset times and available manual reset credits, sorted by earliest expiry. Quota refreshes when you open the Codex quota submenu and the last fetch is older than a minute, or through **Refresh quota**. There is no background quota polling.
+
+**Use a manual reset** asks for confirmation, consumes one credit, then refreshes only that account's quota. The provider API used by the upstream management dashboard accepts only a redemption request ID, not a credit ID. Individual credit selection and guaranteed earliest-expiry consumption are therefore not implemented. The expiry order shown in the menu is display order, not a promise about which credit Codex consumes.
+
+These requests go directly to ChatGPT using the account's current OAuth credentials. They do not wake the local backend or write credentials. If authorization fails, reconnect Codex in Settings. Other providers' quota is not included in this implementation.
+
 ## Efficiency
 
 - **Eco mode (on by default):** the local proxy stays listening on :8317, but the Go backend cold-starts on the first request and stops itself after an idle timeout (5–60 min). Near-zero idle power draw.

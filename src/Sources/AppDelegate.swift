@@ -6,6 +6,7 @@ import UserNotifications
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, UNUserNotificationCenterDelegate {
     var statusItem: NSStatusItem!
     var menu: NSMenu!
+    private var quotaMenuController: QuotaMenuController?
     weak var settingsWindow: NSWindow?
     var serverManager: ServerManager!
     var thinkingProxy: ThinkingProxy!
@@ -155,7 +156,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, UNUserNoti
         NSApplication.shared.mainMenu = mainMenu
     }
     
-    func setupMenuBar() {
+    @MainActor func setupMenuBar() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.isVisible = true
 
@@ -206,6 +207,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, UNUserNoti
         // Quit
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(quit), keyEquivalent: "q"))
 
+        let quotaController = QuotaMenuController()
+        quotaController.install(in: menu)
+        quotaMenuController = quotaController
         statusItem.menu = menu
     }
 

@@ -90,7 +90,7 @@ class AuthManager: ObservableObject {
         serviceAccounts[type]?.hasAccounts ?? false
     }
     
-    func checkAuthStatus() {
+    func checkAuthStatus(completion: (() -> Void)? = nil) {
         let authDir = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".cli-proxy-api")
         
         // Build new accounts dictionary
@@ -151,6 +151,7 @@ class AuthManager: ObservableObject {
                         accounts: newAccounts[type] ?? []
                     )
                 }
+                completion?()
             }
         } catch {
             NSLog("[AuthStatus] Error checking auth status: %@", error.localizedDescription)
@@ -158,6 +159,7 @@ class AuthManager: ObservableObject {
                 for type in ServiceType.allCases {
                     self.serviceAccounts[type] = ServiceAccounts(type: type)
                 }
+                completion?()
             }
         }
     }
